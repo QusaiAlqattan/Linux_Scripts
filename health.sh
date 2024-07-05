@@ -78,79 +78,89 @@ show_menu() {
 
 # Function to perform selected checks
 perform_checks() {
-    for check in "${selected_checks[@]}"
-    do
+    # Perform detailed checks first if enabled
+    if [ "$detailed_check" -eq 1 ]; then
+        for check in "${selected_checks[@]}"; do
+            case $check in
+                1)
+                    echo "------------check_disk_usage----------------"
+                    check_disk_usage
+                    echo
+                    ;;
+                2)
+                    echo "------------check_memory_usage----------------"
+                    check_memory_usage
+                    echo
+                    ;;
+                3)
+                    echo "------------check_running_services----------------"
+                    check_running_services
+                    echo
+                    ;;
+                4)
+                    echo "------------check_system_updates----------------"
+                    check_system_updates
+                    echo
+                    ;;
+                5)
+                    echo "------------check_disk_usage----------------"
+                    check_disk_usage
+                    echo
+                    echo "------------check_memory_usage----------------"
+                    check_memory_usage
+                    echo
+                    echo "------------check_running_services----------------"
+                    check_running_services
+                    echo
+                    echo "------------check_system_updates----------------"
+                    check_system_updates
+                    echo
+                    ;;
+            esac
+        done
+    fi
+
+    # Generate recommendations
+    for check in "${selected_checks[@]}"; do
         case $check in
             1)
                 echo "------------check_disk_usage----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_disk_usage
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_disk_usage_recommendations
                 echo
                 ;;
             2)
                 echo "------------check_memory_usage----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_memory_usage
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_memory_usage_recommendations
                 echo
                 ;;
             3)
                 echo "------------check_running_services----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_running_services
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_running_services_recommendations
                 echo
                 ;;
             4)
                 echo "------------check_system_updates----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_system_updates
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_system_updates_recommendations
                 echo
                 ;;
             5)
                 echo "------------check_disk_usage----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_disk_usage
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_disk_usage_recommendations
                 echo
                 echo "------------check_memory_usage----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_memory_usage
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_memory_usage_recommendations
                 echo
                 echo "------------check_running_services----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_running_services
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_running_services_recommendations
                 echo
                 echo "------------check_system_updates----------------"
-                if [ "$detailed_check" -eq 1 ]; then
-                    check_system_updates
-                    echo
-                fi
                 echo "Recommendations:"
                 generate_system_updates_recommendations
                 echo
@@ -167,6 +177,7 @@ perform_checks() {
     echo "----------------------------"
     echo "System health check completed."
 }
+
 
 # Prompt user for detailed or simple check
 read -p "Do you want a detailed check with recommendations? (yes/no): " detailed_choice
