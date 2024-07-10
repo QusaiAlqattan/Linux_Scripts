@@ -96,8 +96,8 @@ for dir in "$@"; do
             backup_file="backup_${base_dir}_$timestamp.tar.gz"
             
             # Perform compression
-            tar -czf "$backup_dir/$backup_file" -C "$parent_dir" "$base_dir" 2>> "$log_file"
-            
+            tar -cf - -C "$parent_dir" "$base_dir" 2>> "$log_file" | zstd -q - > "$backup_dir/$backup_file"
+
             # Check if compression was successful
             if [ $? -eq 0 ]; then
                 log_message "Compression of directory '$dir' completed successfully."
