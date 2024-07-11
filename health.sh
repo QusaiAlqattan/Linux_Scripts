@@ -11,7 +11,7 @@ generate_disk_usage_recommendations() {
         echo "Disk usage is within normal limits."
     fi
 }
-
+    
 # Function to check disk usage
 check_disk_usage() {
     df -h
